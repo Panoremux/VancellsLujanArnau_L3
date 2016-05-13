@@ -15,6 +15,7 @@ import edu.ub.prog2.utils.AplicacioException;
 import edu.ub.prog2.utils.InControlador;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -27,7 +28,7 @@ public class Controlador implements InControlador{
     /**
      *Atribut del tipus reproductor
      */
-    public ReproductorVisor reproductor;
+    private transient ReproductorVisor reproductor;
 
     /**
      *
@@ -41,7 +42,7 @@ public class Controlador implements InControlador{
     public Controlador(){
         escoltador=new EscoltadorReproduccio();        
         dades=new Dades();
-        reproductor = new ReproductorVisor("C:/Program Files/VideoLAN/VLC",escoltador);;
+        reproductor = new ReproductorVisor("C:/Program Files/VideoLAN/VLC",escoltador);
         //"C:/Program Files/VideoLAN/VLC"
         //"/usr/bin/vlc/"
     }
@@ -268,7 +269,9 @@ public class Controlador implements InControlador{
     public void carregarDadesDisc(String camiOrigen) throws AplicacioException{
         try {
             dades=dades.carregarDades(camiOrigen);
-        } catch (IOException | ClassNotFoundException ex) {
+            dades.setRep(reproductor);
+            
+        } catch (IOException | ClassNotFoundException ex ) {
             throw new AplicacioException("Error al carregar les dades.");
         }      
     }
@@ -325,7 +328,6 @@ public class Controlador implements InControlador{
         if(dades.getBiblioteca().getAt(id) instanceof FitxerMostrable){
             FitxerMostrable fitxer = (FitxerMostrable) dades.getBiblioteca().getAt(id);
             fitxer.mostrar();
-            this.tancarFinestraReproductor();
         }else{
             throw new AplicacioException("L'element seleccionat no és un fitxer mostrable.");
         }
@@ -402,6 +404,11 @@ public class Controlador implements InControlador{
     }
     public void setPremium(){
         escoltador.setPremium(reproductor);
+    }
+    public void setRep(){
+        for(int i=0;i<dades.getBiblioteca().getSize();i++){
+            
+        }
     }
     
 }

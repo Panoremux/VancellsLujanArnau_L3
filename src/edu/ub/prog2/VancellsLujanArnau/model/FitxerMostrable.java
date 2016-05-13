@@ -14,7 +14,7 @@ import edu.ub.prog2.utils.AplicacioException;
 public abstract class FitxerMostrable extends FitxerMultimedia{
     int alcada;
     int amplada;
-    ReproductorVisor repVis;
+    protected transient ReproductorVisor repVis;
 
     /**
      *Constructor de FitxerMostrable
@@ -28,6 +28,7 @@ public abstract class FitxerMostrable extends FitxerMultimedia{
         super(path);
         this.alcada=alcada;
         this.amplada=amplada;
+        this.repVis=repVis;
         super.setNom(nom);
     }
     
@@ -36,4 +37,8 @@ public abstract class FitxerMostrable extends FitxerMultimedia{
      * @throws AplicacioException Llança una excepcio de tipus AplicacioException
      */
     public abstract void mostrar() throws AplicacioException;
+    public abstract void mostrar(int secs) throws AplicacioException;
+    public void setRep(ReproductorVisor repVis){
+        this.repVis=repVis;
+    }
 }

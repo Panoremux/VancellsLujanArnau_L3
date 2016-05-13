@@ -245,7 +245,8 @@ public class Dades implements Serializable{
        ObjectInputStream ois = new ObjectInputStream(fin);
        Dades dades=(Dades)ois.readObject();
        ois.close();
-       fin.close();   
+       fin.close(); 
+       
        return dades;
    }
 
@@ -281,6 +282,20 @@ public class Dades implements Serializable{
             }
         }
         return album;
+    }
+    public void setRep(ReproductorVisor repVis)throws AplicacioException{
+        if(bibliotecaFitxers.getSize()==0){
+            throw new AplicacioException("les dades carregades són buides.");
+        }
+          
+        for(int i=0;i<bibliotecaFitxers.getSize();i++){
+            if(bibliotecaFitxers.getAt(i) instanceof FitxerMostrable){
+                ((FitxerMostrable)bibliotecaFitxers.getAt(i)).setRep(repVis);
+            }else{
+                ((FitxerReproduible)bibliotecaFitxers.getAt(i)).setRep(repVis);
+            }
+                
+        }
     }
     
 }

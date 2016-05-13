@@ -6,6 +6,7 @@
 package edu.ub.prog2.VancellsLujanArnau.controlador;
 
 import edu.ub.prog2.VancellsLujanArnau.model.CarpetaFitxers;
+import edu.ub.prog2.VancellsLujanArnau.model.FitxerMostrable;
 import edu.ub.prog2.VancellsLujanArnau.model.FitxerReproduible;
 import edu.ub.prog2.VancellsLujanArnau.model.Imatge;
 import edu.ub.prog2.utils.AplicacioException;
@@ -27,7 +28,8 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic{
      *Constructor de la classe EscoltadorReproduccio
      */
     public EscoltadorReproduccio(){
-        this.premium=true;        
+        this.premium=true;
+        this.noPubli=false;
     }
 
     /**
@@ -37,11 +39,13 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic{
     @Override
     protected void onEndFile() {
         if(!noPubli){
-            next();
             if(!premium)noPubli=true;
+            next();
+            
         }else if(!premium){
-            nextPubli();
             if(!premium)noPubli=false;
+            nextPubli();
+            
         }
     }
 
@@ -53,7 +57,11 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic{
         if(hasNext()){
             System.out.println("Reproduint el seguent fitxer.");
             try {
-                ((FitxerReproduible) llistaReproduint.getAt(ptr)).reproduir();
+                if(llistaReproduint.getAt(ptr) instanceof FitxerMostrable){
+                    ((FitxerMostrable) llistaReproduint.getAt(ptr)).mostrar(5);
+                }else{
+                    ((FitxerReproduible) llistaReproduint.getAt(ptr)).reproduir();        
+                }
                 ptr++;
             } catch (AplicacioException ex) {
                 Logger.getLogger(EscoltadorReproduccio.class.getName()).log(Level.SEVERE, null, ex);
@@ -62,7 +70,11 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic{
             System.out.println("Reproducció cíclica activada. Tornant a reproduir.");
             try {
                 ptr=0;
-                ((FitxerReproduible) llistaReproduint.getAt(ptr)).reproduir();
+                if(llistaReproduint.getAt(ptr) instanceof FitxerMostrable){
+                    ((FitxerMostrable) llistaReproduint.getAt(ptr)).mostrar(5);
+                }else{
+                    ((FitxerReproduible) llistaReproduint.getAt(ptr)).reproduir();        
+                }
                 ptr++;
             } catch (AplicacioException ex) {
                 Logger.getLogger(EscoltadorReproduccio.class.getName()).log(Level.SEVERE, null, ex);
@@ -106,8 +118,13 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic{
         this.llistaReproduint=llistaReproduint;
         this.ciclic=reproduccioCiclica;
         ptr=0;
-        ((FitxerReproduible) llistaReproduint.getAt(ptr)).reproduir();
+        if(llistaReproduint.getAt(ptr) instanceof FitxerMostrable){
+            ((FitxerMostrable) llistaReproduint.getAt(ptr)).mostrar(5);
+        }else{
+        ((FitxerReproduible) llistaReproduint.getAt(ptr)).reproduir();        
+        }
         ptr++;
+        if(!premium)noPubli=true;
     }
     
     /**
@@ -117,5 +134,16 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic{
     public void setPremium(ReproductorVisor repVis){
         premium=false;
         publicitat=new Imatge("ub.jpg","Publicitat",200,200,repVis);
+    }
+    public void saltaReproduccio(){
+        if(!noPubli){
+            if(!premium)noPubli=true;
+            next();
+            
+        }else if(!premium){
+            if(!premium)noPubli=false;
+            nextPubli();
+            
+        }
     }
 }

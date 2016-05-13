@@ -19,7 +19,7 @@ public abstract class FitxerReproduible extends FitxerMultimedia {
     /**
      *Atribut de tipus reproductor.
      */
-    protected ReproductorVisor r;
+    protected transient ReproductorVisor r;
     
     /**
      *Constructor de FitxerReproduible.
@@ -42,6 +42,9 @@ public abstract class FitxerReproduible extends FitxerMultimedia {
      * @throws AplicacioException Llança una excepció del tipus AplicacioException
      */
     public abstract void reproduir() throws AplicacioException;
+    public void setRep(ReproductorVisor repVis){
+        this.r=repVis;
+    }
         
     
 }

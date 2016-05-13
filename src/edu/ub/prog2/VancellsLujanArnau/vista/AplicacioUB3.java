@@ -43,6 +43,7 @@ public class AplicacioUB3 {
                                                     "Menú Anterior"};
     static private String[] descSubmenuBiblioteca2={"Afegir Video",
                                                     "Afegir Audio",
+                                                    "Afegir Imatge",
                                                     "Menú Anterior"};
     static private String[] descSubmenuAlbum={"Afegir Àlbum",
                                                 "Mostar Àlbums",
@@ -260,20 +261,21 @@ public class AplicacioUB3 {
                     break;
                 case MENU_BIBLIOTECA2_IMAGE:
                     // Mostrem un missatge indicant que s'ha triat aquesta opció
-                    System.out.println("Afegir Imatge");
-                    System.out.println("Cami de la imatge:");
-                    String camiImage=sc.nextLine();
-                    System.out.println("Nom de la imatge:");
-                    String nomImage=sc.nextLine();
-                    System.out.println("Alçada de la imatge:");
-                    int alcadaImage=sc.nextInt();
-                    System.out.println("Amplada de la imatge:");
-                    int ampladaImage=sc.nextInt();
-                    /*try {
-                        controlador.addImatge(camiImage, nomImage, alcadaImage, ampladaImage);
+                    System.out.println("Introdueix les dades de la imatge a afegir");
+                    System.out.println("Escriu el path de la imatge");
+                    String camiImg=sc.nextLine();
+                    System.out.println("Escriu el nom de la imatge");
+                    String nomImg=sc.nextLine();
+                    System.out.println("Escriu l'alçada de la imatge");
+                    int alcadaImg=sc.nextInt();
+                    System.out.println("Escriu l'amplada de la imatge");
+                    int ampladaImg=sc.nextInt();
+           
+                    try{
+                        controlador.afegirImatge(camiImg, nomImg, alcadaImg, ampladaImg);
                     } catch (AplicacioException ex) {
                         Logger.getLogger(AplicacioUB3.class.getName()).log(Level.SEVERE, null, ex);
-                    }*/
+                    }
                     break;
                 case MENU_BIBLIOTECA2_BACK_L2:
                     System.out.println("Menu anterior");
@@ -496,7 +498,21 @@ public class AplicacioUB3 {
                     break;
                 case REPRODUIR_IMAGE:
                     // Mostrem un missatge indicant que s'ha triat aquesta opció
+                    System.out.println("Què vols mostrar?");
+                        for (String item : mostrar=controlador.mostrarBiblioteca()) {
+                    System.out.println(item);
+                    }  
+                    int idi=sc.nextInt();
+                    System.out.println("Introdueix els segons");
                     
+                    int secs=sc.nextInt();
+                    {
+                        try {
+                            controlador.mostrarFitxer(idi-1,secs);
+                        } catch (AplicacioException ex) {
+                            ex.getMessage();
+                        }
+                    }
                     break;
                 case REPRODUIR_ALL_BIBLIOTECA:
                     try {
@@ -552,23 +568,41 @@ public class AplicacioUB3 {
             //REPRODUIR2_PLAY,REPRODUIR2_PAUSE,REPRODUIR2_STOP,REPRODUIR2_NEXT,REPRODUIR2_BACK_R2
             switch(opcio) {
                 case REPRODUIR2_PLAY:
-                    
+                {
+                try {
+                    controlador.reemprenReproduccio();
+                } catch (AplicacioException ex) {
+                    Logger.getLogger(AplicacioUB3.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                }
                     break;
                 case REPRODUIR2_PAUSE:
+                {
+                try {
                     // Mostrem un missatge indicant que s'ha triat aquesta opció
-                    
+                    controlador.pausaReproduccio();
+                } catch (AplicacioException ex) {
+                    Logger.getLogger(AplicacioUB3.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                }
                     break;
                 case REPRODUIR2_STOP:
-            {
+                {
                 try {
                     controlador.tancarFinestraReproductor();
                 } catch (AplicacioException ex) {
                     Logger.getLogger(AplicacioUB3.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
+                }
                     break;
                 case REPRODUIR2_NEXT:
-                    
+                {
+                try {
+                    controlador.saltaReproduccio();
+                } catch (AplicacioException ex) {
+                    Logger.getLogger(AplicacioUB3.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                }
                     break;
                 case REPRODUIR2_BACK_R2:
                     System.out.println("Menu anterior");
