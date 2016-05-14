@@ -109,8 +109,11 @@ public class Controlador implements InControlador{
      */
     @Override
     public void reproduirFitxer(int id) throws AplicacioException{ // id és la posició a llista de getBiblioteca()
-        FitxerReproduible fitxer = (FitxerReproduible) dades.getBiblioteca().getAt(id);
-        fitxer.reproduir();
+        if(dades.getBiblioteca().getAt(id) instanceof FitxerMostrable){
+            ((FitxerMostrable) dades.getBiblioteca().getAt(id)).mostrar(-1);
+        }else{
+            ((FitxerReproduible) dades.getBiblioteca().getAt(id)).reproduir();
+        }
         //dades.reproduir(id);
     }
     
@@ -286,12 +289,12 @@ public class Controlador implements InControlador{
     }
 
     /**
-     *
-     * @param path
-     * @param nom
-     * @param alcada
-     * @param amplada
-     * @throws AplicacioException
+     *Mètode per a afegir una imatge a la biblioteca
+     * @param path Cami
+     * @param nom Nom
+     * @param alcada Alcada
+     * @param amplada Amplada
+     * @throws AplicacioException Llança una excepcio del tipus AplicacioException
      */
     @Override
     public void afegirImatge(String path, String nom, int alcada, int amplada) throws AplicacioException {
@@ -318,9 +321,9 @@ public class Controlador implements InControlador{
 
     /**
      *Mètode que ens mostrarà un fitxer
-     * @param id
-     * @param segons
-     * @throws AplicacioException
+     * @param id Posició
+     * @param segons Temps
+     * @throws AplicacioException Llança una excepcio del tipus AplicacioException
      */
     @Override
     public void mostrarFitxer(int id, int segons) throws AplicacioException {
@@ -345,17 +348,17 @@ public class Controlador implements InControlador{
 
     /**
      *Reprodueix una carpeta a partir d'un string donat
-     * @param titolAlbum
+     * @param titolAlbum Titol de l'album
      * @throws AplicacioException Llança una excepcio de tipus AplicacioException
      */
     @Override
     public void reproduirCarpeta(String titolAlbum) throws AplicacioException {
-        if(dades.albumExists(titolAlbum)){
+        if(!dades.albumExists(titolAlbum))throw new AplicacioException("Aquest album no existeix.");
+        else if(dades.getAlbum(titolAlbum).getSize()!=0){
             this.obrirFinestraReproductor();
             escoltador.iniciarReproduccio(dades.getAlbum(titolAlbum), ciclic);
-            this.tancarFinestraReproductor();
         }else{
-            throw new AplicacioException("No s'ha trobat l'album a reproduir");
+            throw new AplicacioException("Aquest album no té fitxers a reproduir.");
         }
         
     }
@@ -393,7 +396,7 @@ public class Controlador implements InControlador{
      */
     @Override
     public void saltaReproduccio() throws AplicacioException {
-        escoltador.onEndFile();
+        escoltador.saltaRep();
     }
 
     /**
@@ -402,9 +405,17 @@ public class Controlador implements InControlador{
     public void setCiclic(){
         this.ciclic=(!ciclic);
     }
+
+    /**
+     *
+     */
     public void setPremium(){
-        escoltador.setPremium(reproductor);
+        escoltador.setPremium(new Imatge("ub.jpg","Publicitat",200,200,reproductor));
     }
+
+    /**
+     *
+     */
     public void setRep(){
         for(int i=0;i<dades.getBiblioteca().getSize();i++){
             

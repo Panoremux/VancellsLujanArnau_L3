@@ -19,6 +19,7 @@ public class ReproductorVisor extends ReproductorVisorBasic{
     
     /**
      *Constructor de la classe ReproductorVisor
+     * @param vlcPath Camí del VLC
      * @param controlador controlador
      */
     public ReproductorVisor(String vlcPath,EscoltadorReproduccioBasic controlador) {

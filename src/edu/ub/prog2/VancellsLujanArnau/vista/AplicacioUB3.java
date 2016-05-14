@@ -6,8 +6,6 @@ package edu.ub.prog2.VancellsLujanArnau.vista;
 import edu.ub.prog2.VancellsLujanArnau.controlador.Controlador;
 import edu.ub.prog2.utils.AplicacioException;
 import edu.ub.prog2.utils.Menu;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -56,7 +54,7 @@ public class AplicacioUB3 {
                                                 "Canviar títol",
                                                 "Canviar mida màxima",
                                                 "Menú Anterior"};
-    static private String[] descSubmenuReproductor={"Reproduir un fitxer reproduï",
+    static private String[] descSubmenuReproductor={"Reproduir un fitxer reproduïble",
                                                 "Visualitza una imatge",
                                                 "Reproduir tota la biblioteca",
                                                 "Reproduir un àlbum",
@@ -70,17 +68,16 @@ public class AplicacioUB3 {
                                                 "Salta",
                                                 "Menú Anterior"};
     /**
-     * We could use either TaulaFitxers or CarpetaFitxers.
-     * The user will be able to select it.
+     * Inicia controlador
      */
     public AplicacioUB3(){
         controlador=new Controlador();
     }
     
     /**
-     * From here we will call the methods from controlador needed to make the Player work
+     * Menú de la aplicació
      * 
-     * @throws ClassNotFoundException
+     * @throws ClassNotFoundException Llança una excepcio del tipus ClassNotFoundException
      */
     public void gestioAplicacioUB() throws ClassNotFoundException  {
         Scanner sc=new Scanner(System.in);
@@ -130,6 +127,13 @@ public class AplicacioUB3 {
                     gestioReproductor(sc);
                     break;
                 case MENU_PRINCIPAL_SORTIR:
+            {
+                try {
+                    controlador.tancarFinestraReproductor();
+                } catch (AplicacioException ex) {
+                    ex.getMessage();
+                }
+            }
                     break;
             }
 
@@ -274,7 +278,7 @@ public class AplicacioUB3 {
                     try{
                         controlador.afegirImatge(camiImg, nomImg, alcadaImg, ampladaImg);
                     } catch (AplicacioException ex) {
-                        Logger.getLogger(AplicacioUB3.class.getName()).log(Level.SEVERE, null, ex);
+                        ex.getMessage();
                     }
                     break;
                 case MENU_BIBLIOTECA2_BACK_L2:
@@ -503,12 +507,10 @@ public class AplicacioUB3 {
                     System.out.println(item);
                     }  
                     int idi=sc.nextInt();
-                    System.out.println("Introdueix els segons");
                     
-                    int secs=sc.nextInt();
                     {
                         try {
-                            controlador.mostrarFitxer(idi-1,secs);
+                            controlador.mostrarFitxer(idi-1,-1);
                         } catch (AplicacioException ex) {
                             ex.getMessage();
                         }
@@ -523,14 +525,14 @@ public class AplicacioUB3 {
                     }
                     break;
                 case REPRODUIR_ALBUM:
-                    for(String s:controlador.mostrarBiblioteca()){
+                    for(String s:controlador.mostrarLlistatAlbums()){
                         System.out.println(s);
                     }
                     System.out.println("Escriu el nom de l'album a reproduir: ");
                     try {
                         controlador.reproduirCarpeta(sc.nextLine());
                     } catch (AplicacioException ex) {
-                        Logger.getLogger(AplicacioUB3.class.getName()).log(Level.SEVERE, null, ex);
+                        ex.getMessage();
                     }
                     break;
                 case REPRODUIR_CICLE:
@@ -572,7 +574,7 @@ public class AplicacioUB3 {
                 try {
                     controlador.reemprenReproduccio();
                 } catch (AplicacioException ex) {
-                    Logger.getLogger(AplicacioUB3.class.getName()).log(Level.SEVERE, null, ex);
+                    ex.getMessage();
                 }
                 }
                     break;
@@ -582,7 +584,7 @@ public class AplicacioUB3 {
                     // Mostrem un missatge indicant que s'ha triat aquesta opció
                     controlador.pausaReproduccio();
                 } catch (AplicacioException ex) {
-                    Logger.getLogger(AplicacioUB3.class.getName()).log(Level.SEVERE, null, ex);
+                    ex.getMessage();
                 }
                 }
                     break;
@@ -591,7 +593,7 @@ public class AplicacioUB3 {
                 try {
                     controlador.tancarFinestraReproductor();
                 } catch (AplicacioException ex) {
-                    Logger.getLogger(AplicacioUB3.class.getName()).log(Level.SEVERE, null, ex);
+                    ex.getMessage();
                 }
                 }
                     break;
@@ -600,7 +602,7 @@ public class AplicacioUB3 {
                 try {
                     controlador.saltaReproduccio();
                 } catch (AplicacioException ex) {
-                    Logger.getLogger(AplicacioUB3.class.getName()).log(Level.SEVERE, null, ex);
+                    ex.getMessage();
                 }
                 }
                     break;

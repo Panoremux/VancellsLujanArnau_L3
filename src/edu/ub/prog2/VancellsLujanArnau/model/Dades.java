@@ -274,6 +274,12 @@ public class Dades implements Serializable{
     public String getTitolAlbum(int id){
        return llistaAlbums.get(id).getTitle();
     }
+
+    /**
+     *Retorna l'album que busquem
+     * @param titolAlbum Titol de l'album
+     * @return album
+     */
     public AlbumFitxersMultimedia getAlbum(String titolAlbum){
         AlbumFitxersMultimedia album= new AlbumFitxersMultimedia(titolAlbum);
         for(int i=0;i<llistaAlbums.size();i++){
@@ -283,6 +289,12 @@ public class Dades implements Serializable{
         }
         return album;
     }
+
+    /**
+     *Passa per tots els fitxers per a actualitzar el reproductor
+     * @param repVis Reproductor Visor
+     * @throws AplicacioException Llança una excepcio del tipus AplicacioException
+     */
     public void setRep(ReproductorVisor repVis)throws AplicacioException{
         if(bibliotecaFitxers.getSize()==0){
             throw new AplicacioException("les dades carregades són buides.");

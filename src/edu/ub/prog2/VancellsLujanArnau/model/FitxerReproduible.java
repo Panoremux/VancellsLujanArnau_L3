@@ -42,6 +42,11 @@ public abstract class FitxerReproduible extends FitxerMultimedia {
      * @throws AplicacioException Llança una excepció del tipus AplicacioException
      */
     public abstract void reproduir() throws AplicacioException;
+
+    /**
+     *Assignem el nou reproductorVisor
+     * @param repVis Reproductor Visor
+     */
     public void setRep(ReproductorVisor repVis){
         this.r=repVis;
     }

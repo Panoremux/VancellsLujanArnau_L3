@@ -11,8 +11,6 @@ import edu.ub.prog2.VancellsLujanArnau.model.FitxerReproduible;
 import edu.ub.prog2.VancellsLujanArnau.model.Imatge;
 import edu.ub.prog2.utils.AplicacioException;
 import edu.ub.prog2.utils.EscoltadorReproduccioBasic;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 /**
  *Classe EscoltadorReproduccio
  * @author Arnau
@@ -64,7 +62,7 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic{
                 }
                 ptr++;
             } catch (AplicacioException ex) {
-                Logger.getLogger(EscoltadorReproduccio.class.getName()).log(Level.SEVERE, null, ex);
+                ex.getMessage();
             }
         }else if(ciclic){
             System.out.println("Reproducció cíclica activada. Tornant a reproduir.");
@@ -77,7 +75,7 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic{
                 }
                 ptr++;
             } catch (AplicacioException ex) {
-                Logger.getLogger(EscoltadorReproduccio.class.getName()).log(Level.SEVERE, null, ex);
+                ex.getMessage();
             }
         }else{
             System.out.println("S'ha acabat la reproducció de la carpeta.");
@@ -103,7 +101,7 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic{
         try {
             publicitat.mostrar(5);
         } catch (AplicacioException ex) {
-            Logger.getLogger(EscoltadorReproduccio.class.getName()).log(Level.SEVERE, null, ex);
+            ex.getMessage();
         }
     }
     
@@ -129,21 +127,22 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic{
     
     /**
      *Assigna el booleà premium a false i crea la imatge que s'utilitzarà entre fitxer i fitxer
-     * @param repVis
+     * @param publi Imatge de publicitat
      */
-    public void setPremium(ReproductorVisor repVis){
+    public void setPremium(Imatge publi){
         premium=false;
-        publicitat=new Imatge("ub.jpg","Publicitat",200,200,repVis);
+        publicitat=publi;
     }
-    public void saltaReproduccio(){
-        if(!noPubli){
-            if(!premium)noPubli=true;
-            next();
+    
+    protected void saltaRep() {                   
+        if(noPubli){
+            if(!premium){
+                if(!premium)noPubli=false;
+                nextPubli();
             
-        }else if(!premium){
-            if(!premium)noPubli=false;
-            nextPubli();
-            
+            }
         }
+        
     }
+
 }
