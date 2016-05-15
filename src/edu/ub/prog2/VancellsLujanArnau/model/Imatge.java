@@ -32,7 +32,13 @@ public class Imatge extends FitxerMostrable{
      */
     @Override
     public void mostrar() throws AplicacioException{
-        repVis.show(this);
+        if(this.exists()){
+            repVis.show(this);
+        }else{
+            throw new AplicacioException("Error al reproduir el fitxer");
+        }
+        
+        
     }
 
     /**
@@ -41,7 +47,13 @@ public class Imatge extends FitxerMostrable{
      * @throws AplicacioException Llança una excepcio de tipus AplicacioException
      */
     public void mostrar(int secs) throws AplicacioException{
-        repVis.show(this,secs);
+        if(this.exists()){
+            repVis.show(this,secs);
+        }else{
+            throw new AplicacioException("Error al reproduir el fitxer");
+        }
+        
+        
     }
     
     @Override

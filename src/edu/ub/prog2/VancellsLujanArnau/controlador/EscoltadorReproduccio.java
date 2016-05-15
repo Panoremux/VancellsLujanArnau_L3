@@ -54,29 +54,30 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic{
     protected void next() {
         if(hasNext()){
             System.out.println("Reproduint el seguent fitxer.");
-            try {
-                if(llistaReproduint.getAt(ptr) instanceof FitxerMostrable){
-                    ((FitxerMostrable) llistaReproduint.getAt(ptr)).mostrar(5);
-                }else{
-                    ((FitxerReproduible) llistaReproduint.getAt(ptr)).reproduir();        
+                try {
+                    if(llistaReproduint.getAt(ptr) instanceof FitxerMostrable){
+                        ((FitxerMostrable) llistaReproduint.getAt(ptr)).mostrar(5);
+                    }else{
+                        ((FitxerReproduible) llistaReproduint.getAt(ptr)).reproduir();        
+                    }
+                    ptr++;
+                } catch (AplicacioException ex) {
+                    ex.getMessage();
                 }
-                ptr++;
-            } catch (AplicacioException ex) {
-                ex.getMessage();
-            }
         }else if(ciclic){
-            System.out.println("Reproducció cíclica activada. Tornant a reproduir.");
-            try {
-                ptr=0;
-                if(llistaReproduint.getAt(ptr) instanceof FitxerMostrable){
-                    ((FitxerMostrable) llistaReproduint.getAt(ptr)).mostrar(5);
-                }else{
-                    ((FitxerReproduible) llistaReproduint.getAt(ptr)).reproduir();        
+                System.out.println("Reproducció cíclica activada. Tornant a reproduir.");
+                try {
+                    ptr=0;
+                    if(llistaReproduint.getAt(ptr) instanceof FitxerMostrable){
+                        ((FitxerMostrable) llistaReproduint.getAt(ptr)).mostrar(5);
+                    }else{
+                        ((FitxerReproduible) llistaReproduint.getAt(ptr)).reproduir();        
+                    }
+                    ptr++;
+                } catch (AplicacioException ex) {
+                    ex.getMessage();
                 }
-                ptr++;
-            } catch (AplicacioException ex) {
-                ex.getMessage();
-            }
+            
         }else{
             System.out.println("S'ha acabat la reproducció de la carpeta.");
             
@@ -116,13 +117,9 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic{
         this.llistaReproduint=llistaReproduint;
         this.ciclic=reproduccioCiclica;
         ptr=0;
-        if(llistaReproduint.getAt(ptr) instanceof FitxerMostrable){
-            ((FitxerMostrable) llistaReproduint.getAt(ptr)).mostrar(5);
-        }else{
-        ((FitxerReproduible) llistaReproduint.getAt(ptr)).reproduir();        
-        }
-        ptr++;
         if(!premium)noPubli=true;
+        next();
+        
     }
     
     /**

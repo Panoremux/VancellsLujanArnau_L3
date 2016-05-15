@@ -38,7 +38,12 @@ public class Video extends FitxerReproduible{
     
     @Override
     public void reproduir() throws AplicacioException {
-        r.play(this);
+        if(this.exists()){
+            r.play(this);
+        }else{
+            throw new AplicacioException("Error al reproduir el fitxer");
+        }
+        
     }   
     
 }

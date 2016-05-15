@@ -37,7 +37,12 @@ public class Audio extends FitxerReproduible {
 
     @Override
     public void reproduir() throws AplicacioException  {
-        r.play(this,fitxerImatge);
+        if(this.exists()){
+            r.play(this,fitxerImatge);
+        }else{
+            throw new AplicacioException("Error al reproduir el fitxer");
+        }
+        
     }
         
     
